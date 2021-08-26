@@ -10,10 +10,11 @@ then
 fi
 
 mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
 echo "testing" > /data/web_static/releases/test/index.html
 
 ln -fs /data/web_static/releases/test/ /data/web_static/current
-chown -HR ubuntu:ubuntu /data/
+chown -hR ubuntu:ubuntu /data/
 
 server_block="\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}\n"
 file="/etc/nginx/sites-available/default"
