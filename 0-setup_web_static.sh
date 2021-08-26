@@ -5,6 +5,7 @@ dpkg -s nginx >/dev/null 2>&1
 
 if [ "$?" ]
 then
+        apt-get -y update
         apt-get install -y nginx
 fi
 
