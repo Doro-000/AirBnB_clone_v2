@@ -1,37 +1,34 @@
 # sets up web servers for the deployment of web_static
-
-$whisper_dirs = [ '/data/', '/data/web_static/',
-                  '/data/web_static/releases/',
-                  '/data/web_static/shared/',
-                  '/data/web_static/releases/test/'
-                  ]
 $s = "\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}"
 
-package {'nginx':
+package {"nginx":
   ensure  => installed,
 }
 
 exec { "mkdir -p /data/web_static/releases/test/":
+  path => ['/bin', '/usr/bin', '/usr/sbin',],
 }
 
 exec { "mkdir -p /data/web_static/shared/":
+  path => ['/bin', '/usr/bin', '/usr/sbin',],
 }
 
 exec { "chown -hR ubuntu:ubuntu /data/":
+  path => ['/bin', '/usr/bin', '/usr/sbin',],
 }
 
-file { '/data/web_static/current':
+file { "/data/web_static/current":
   ensure => link,
-  target => '/data/web_static/releases/test/',
+  target => "/data/web_static/releases/test/",
 }
 
-file {'/data/web_static/releases/test/index.html':
+file {"/data/web_static/releases/test/index.html":
   ensure  => present,
   content => 'Holberton School for the win!',
 }
 
 file_line {'deploy static':
-  path  => '/etc/nginx/sites-available/default',
+  path  => "/etc/nginx/sites-available/default",
   after => 'server_name _;',
   line  => $s,
 }
