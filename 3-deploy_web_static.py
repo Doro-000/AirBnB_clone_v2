@@ -7,6 +7,7 @@ from os.path import abspath, isfile
 env.hosts = ['34.138.61.3', '34.75.118.132']
 env.user = "ubuntu"
 
+
 def do_pack():
     """creates a tarfile"""
     local("mkdir -p versions")
@@ -19,6 +20,7 @@ def do_pack():
     else:
         return abspath("./versions/{}".tar_file)
 
+
 def do_deploy(archive_path):
     """distributes an archive to web servers"""
     if not isfile(archive_path):
@@ -30,14 +32,15 @@ def do_deploy(archive_path):
     success = run("tar -xzf /tmp/{} -C {}".format(file_name, file_path))
     success = run("rm /tmp/{}".format(file_name))
     success = run("mv {}/web_static/* {}").format(file_path, file_path)
-    success = run ("rm -rf {}/web_static/".format(file_path))
+    success = run("rm -rf {}/web_static/".format(file_path))
     success = run("ln -fs {} {}".format(file_path, "/data/web_static/current"))
     return success.succeeded
 
+
 def deploy():
-	"""creates and distributes an archive"""
-	packed = do_pack()
-	if not packed:
-		return False
-	deployed = do_deploy(packed)
-	return deployed
+    """creates and distributes an archive"""
+    packed = do_pack()
+    if not packed:
+        return False
+    deployed = do_deploy(packed)
+    return deployed
