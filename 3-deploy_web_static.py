@@ -31,7 +31,7 @@ def do_deploy(archive_path):
     success = run("mkdir -p {}".format(file_path))
     success = run("tar -xzf /tmp/{} -C {}".format(file_name, file_path))
     success = run("rm /tmp/{}".format(file_name))
-    success = run("mv {}/web_static/* /".format(file_path, file_path))
+    success = run("mv {}/web_static/* {}/".format(file_path, file_path))
     success = run("rm -rf {}/web_static".format(file_path))
     success = run("ln -fs {} {}".format(file_path, "/data/web_static/current"))
     return success.succeeded
