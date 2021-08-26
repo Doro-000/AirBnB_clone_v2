@@ -1,2 +1,20 @@
 #!/usr/bin/python3
-"""distributes an archive to web servers"""
+"""fabfile that handles deployment of archive files"""
+from fabric.api import *
+from os.path import isfile
+
+env.hosts = ['34.138.61.3', '34.75.118.132']
+env.user = "ubuntu"
+
+def do_deploy(archive_path):
+    """distributes an archive to web servers"""
+    if not isfile(archive_path):
+        return False
+    sucess = put(archive_path, "/tmp/")
+    file_name = archive_path.split("/")[-1]
+    file_path = "/data/web_static/releases/{}".format(file_name.split(".")[0])
+    sucess = run("mkdir -p {}".format(file_path))
+    sucess = run("tar -xzf /tmp/{} -C {}".format(file_name, file_path))
+    sucess = run("rm /tmp/{}".format(file_name))
+    sucess = run("ln -fs {} {}".format(file_path, "/data/web_static/current"))
+    return sucess.succeeded
