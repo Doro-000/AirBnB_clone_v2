@@ -15,7 +15,7 @@ echo "testing" > /data/web_static/releases/test/index.html
 ln -fs /data/web_static/releases/test/ /data/web_static/current
 chown -HR ubuntu:ubuntu /data/
 
-server_block="\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n"
+server_block="\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}\n"
 file="/etc/nginx/sites-available/default"
 
 sed -i "41a\ $server_block" "$file";
