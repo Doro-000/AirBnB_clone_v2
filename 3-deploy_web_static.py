@@ -36,10 +36,9 @@ def do_deploy(archive_path):
     success = run("ln -fs {} {}".format(file_path, "/data/web_static/current"))
     return success.succeeded
 
-
+packed = do_pack()
 def deploy():
     """creates and distributes an archive"""
-    packed = do_pack()
     if not packed:
         return False
     deployed = do_deploy(packed)
