@@ -15,4 +15,4 @@ def do_pack():
     if (success.failed):
         return None
     else:
-        return abspath("./versions/{}".tar_file)
+        return abspath("./versions/{}".format(tar_file))
