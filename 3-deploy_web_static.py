@@ -2,8 +2,7 @@
 """creates and distributes an archive to web servers"""
 from fabric.api import *
 from datetime import datetime
-from os.path import abspath, isfile
-from os import listdir
+from os.path import abspath, isfile, exists
 
 env.hosts = ['34.138.61.3', '34.75.118.132']
 env.user = "ubuntu"
@@ -16,7 +15,7 @@ def do_pack():
     tar_file = "web_static_{}{}{}{}{}{}.tgz".format(
         now.year, now.month, now.day, now.hour, now.minute, now.second)
     success = local("tar -cvzf versions/{} web_static".format(tar_file))
-    if (success.failed):
+    if not exists("./versions/{}".format(tar_file)):
         return None
     else:
         return abspath("./versions/{}".format(tar_file))
@@ -39,9 +38,7 @@ def do_deploy(archive_path):
 
 def deploy():
     """creates and distributes an archive"""
-    packed = True
-    if not listdir("./versions"):
-        packed = do_pack()
+    packed = do_pack()
     if not packed:
         return False
     deployed = do_deploy(packed)
