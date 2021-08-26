@@ -8,6 +8,7 @@ env.user = "ubuntu"
 
 def do_clean(number=0):
     """deletes out-of-date archives"""
+    number = int(number)
     with lcd("./versions"):
         unparsed_result = local("ls -t .")
     if (unparsed_result):
