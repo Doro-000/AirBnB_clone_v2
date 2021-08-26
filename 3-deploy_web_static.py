@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """creates and distributes an archive to web servers"""
-from fabric.api import local
+from fabric.api import *
 from datetime import datetime
 from os.path import abspath, isfile
 
@@ -14,11 +14,11 @@ def do_pack():
     now = datetime.now()
     tar_file = "web_static_{}{}{}{}{}{}.tgz".format(
         now.year, now.month, now.day, now.hour, now.minute, now.second)
-    success = local("tar -cvzf  versions/{} web_static".format(tar_file))
+    success = local("tar -cvzf versions/{} web_static".format(tar_file))
     if (success.failed):
         return None
     else:
-        return abspath("./versions/{}".tar_file)
+        return abspath("./versions/{}".format(tar_file))
 
 
 def do_deploy(archive_path):
