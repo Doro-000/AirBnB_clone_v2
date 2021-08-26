@@ -11,11 +11,13 @@ package {'nginx':
   ensure  => installed,
 }
 
-file { $whisper_dirs:
-        ensure  => 'directory',
-        owner   => 'ubuntu',
-        group   => 'ubuntu',
-        recurse => 'remote',
+exec { "mkdir -p /data/web_static/releases/test/":
+}
+
+exec { "mkdir -p /data/web_static/shared/":
+}
+
+exec { "chown -hR ubuntu:ubuntu /data/":
 }
 
 file { '/data/web_static/current':
