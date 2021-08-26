@@ -1,6 +1,9 @@
 # sets up web servers for the deployment of web_static
 $s = "\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}"
 
+exec {'/usr/bin/apt-get update':
+}
+
 package {"nginx":
   ensure  => installed,
 }
