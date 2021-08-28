@@ -10,14 +10,17 @@ package {"nginx":
 
 exec { "mkdir -p /data/web_static/releases/test/":
   path => ['/bin', '/usr/bin', '/usr/sbin',],
+  user => 'ubuntu',
 }
 
 exec { "mkdir -p /data/web_static/shared/":
   path => ['/bin', '/usr/bin', '/usr/sbin',],
+  user => 'ubuntu',
 }
 
 exec { "chown -hR ubuntu:ubuntu /data/":
   path => ['/bin', '/usr/bin', '/usr/sbin',],
+  user => 'ubuntu',
 }
 
 file { "/data/web_static/current":
