@@ -8,6 +8,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import models
 
+
 class State(BaseModel, Base):
     """ State class: class to represent states of cities"""
     __tablename__ = "states"
@@ -17,7 +18,8 @@ class State(BaseModel, Base):
     @property
     def cities(self):
         result = []
-        for city in models.storage.all(cls=models.dummy_classes["City"]).values():
+        pep_fix = models.dummy_classes["City"]
+        for city in models.storage.all(cls=pep_fix).values():
             if city.state_id == self.id:
                 result.append(city)
         return result
