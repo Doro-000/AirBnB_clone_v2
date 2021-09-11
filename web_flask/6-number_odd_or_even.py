@@ -30,8 +30,15 @@ def python_route(string="is cool"):
         return "Python %s" % escape(string.replace("_", " "))
 
 
-@app.route('/number_template/<int:n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def num_route(n):
+        """Handles converted variables"""
+        if (n):
+                return "%d is a number" % n
+
+
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def render_num_route(n):
         """serves static files"""
         if (n):
                 return render_template("5-number.html", my_num=n)
