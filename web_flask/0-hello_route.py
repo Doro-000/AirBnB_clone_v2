@@ -9,3 +9,6 @@ app = Flask("__name__")
 def hello():
         """hello world func"""
         return "Hello HBNB!"
+
+if __name__ == "__main__":
+        app.run()
