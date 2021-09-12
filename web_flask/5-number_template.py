@@ -40,7 +40,7 @@ def num_route(n):
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def render_num_route(n):
         """serves static files"""
-        return render_template("5-number.html", my_num=n)
+        return render_template("5-number.html", num=n)
 
 if __name__ == "__main__":
         app.run()
