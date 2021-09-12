@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """starts a Flask web application"""
 
-from flask import Flask, escape, render_template
+from flask import Flask, render_template
 app = Flask("__name__")
 
 
@@ -20,21 +20,20 @@ def hbnb():
 @app.route('/c/<string>', strict_slashes=False)
 def c_route(string):
         """Handles variables"""
-        return "C %s" % escape(string.replace("_", " "))
+        return "C {}".format(string.replace("_", " "))
 
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<string>', strict_slashes=False)
 def python_route(string="is cool"):
         """Handles optional variables"""
-        return "Python %s" % escape(string.replace("_", " "))
+        return "Python {}".format(string.replace("_", " "))
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
 def num_route(n):
         """Handles converted variables"""
-        if (n):
-                return "%d is a number" % n
+        return "{} is a number".format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
