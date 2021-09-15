@@ -78,3 +78,8 @@ class DBStorage:
         """close session"""
         self.__session.__class__.close(self.__session)
         self.reload()
+
+    def rollback(self):
+        """ rollback any changes
+        """
+        self.__session.rollback()

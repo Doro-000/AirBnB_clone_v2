@@ -67,6 +67,8 @@ class HBNBCommand(cmd.Cmd):
                 print(new_instance.id)
             except:
                 print("** class doesn't exist **")
+                if (models.storage_engine == "db"):
+                    models.storage.rollback();
         else:
             print("** class name missing **")
 
@@ -145,6 +147,8 @@ class HBNBCommand(cmd.Cmd):
                             print("** attribute name missing **")
                     except:
                         print("** no instance found **")
+                        if (models.storage_engine == "db"):
+                            models.storage.rollback();
                 else:
                     print("** instance id missing **")
             else:
