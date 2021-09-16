@@ -4,7 +4,7 @@
 import models
 from models.base_model import BaseModel, Base
 from models import city, state
-from os import environ, getenv
+from os import getenv
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine

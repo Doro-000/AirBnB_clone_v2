@@ -4,9 +4,8 @@
     module containing places to represent the place
 """
 from models.base_model import BaseModel, Base
-from models.city import City
-from models.user import User
-from models.amenity import Amenity
+from os import environ
+import models
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 
@@ -26,8 +25,9 @@ class Place(BaseModel, Base):
     """
     __tablename__ = "places"
 
-    city_id = Column(String(60), ForeignKey(City.id), nullable=False)
-    user_id = Column(String(60), ForeignKey(User.id), nullable=False)
+    city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
+    user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
+
     name = Column(String(128), nullable=False)
     description = Column(String(1024), nullable=True)
     number_rooms = Column(Integer, nullable=False, default=0)
@@ -36,31 +36,36 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+
     amenity_ids = []
-    reviews = relationship("Review", backref="place")
     amenities = relationship("Amenity",
-                             secondary=place_amenity, viewonly=False)
+                             secondary=place_amenity, viewonly=False, back_populates="place_amenities")
 
-    @property
-    def reviews(self):
-        """getter function for reviews attribute"""
-        result = []
-        for review in self.reviews:
-            if review.place_id == self.id:
-                result.append(review)
-        return result
+    user = relationship("User", back_populates="places")
+    cities = relationship("City", back_populates="places")
+    reviews = relationship("Review", back_populates="place")
 
-    @property
-    def amenities(self):
-        """getter function for amenity attribute"""
-        result = []
-        for amenity in self.amenity_ids:
-            if amenity == Amenity.id:
-                result.append(amenity)
-        return result
+    if (environ.get("HBNB_TYPE_STORAGE") != "db"):
+        @property
+        def reviews(self):
+            """getter function for reviews attribute"""
+            result = []
+            for review in models.storage.all(models.dummy_classes["Review"]).values():
+                if review.place_id == self.id:
+                    result.append(review)
+            return result
 
-    @amenities.setter
-    def amenities(self, obj):
-        """ setter for amenities class """
-        if (isinstance(obj, Amenity)):
-            self.amenity_ids.append(obj.id)
+        @property
+        def amenities(self):
+            """getter function for amenity attribute"""
+            result = []
+            for amenity in models.storage.all(models.dummy_classes["Amenity"]).values():
+                if amenity.id in self.amenity_ids:
+                    result.append()
+            return result
+
+        @amenities.setter
+        def amenities(self, obj):
+            """ setter for amenities class """
+            if (isinstance(obj, models.dummy_classes["Amenity"])):
+                self.amenity_ids.append(obj.id)
