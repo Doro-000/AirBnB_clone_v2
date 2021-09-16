@@ -3,8 +3,6 @@
     module containing Amenity class
 """
 from models.base_model import BaseModel, Base
-from models.city import City
-from models.user import User
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
 
