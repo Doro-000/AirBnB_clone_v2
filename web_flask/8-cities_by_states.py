@@ -4,7 +4,7 @@
 from flask import Flask, render_template
 import models
 
-app = Flask("__name__")
+app = Flask(__name__)
 
 
 @app.teardown_appcontext
