@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """starts a Flask web application"""
 
+from uuid import SafeUUID
 from flask import Flask, render_template
 import models
 
@@ -23,8 +24,7 @@ def route_states():
 @app.route("/cities_by_states", strict_slashes=False)
 def route_city():
         pep_fix = models.dummy_classes["State"]
-        data = models.storage.all(cls=pep_fix)
-        states = data.values()
+        states = models.storage.all(cls=pep_fix).values()
         return render_template('8-cities_by_states.html', states_list=states)
 
 

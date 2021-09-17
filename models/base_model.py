@@ -63,13 +63,14 @@ class BaseModel():
         """
             custom representation of a model
         """
+        copy_dict = self.__dict__.copy()
         custom_dict = {}
         custom_dict.update({"__class__": self.__class__.__name__})
-        for key in list(self.__dict__):
+        for key in list(copy_dict):
             if key in ("created_at", "updated_at"):
                 custom_dict.update({key: getattr(self, key).isoformat()})
             elif key == "_sa_instance_state":
-                self.__dict__.pop(key)
+                continue
             else:
                 custom_dict.update({key: getattr(self, key)})
         return custom_dict
