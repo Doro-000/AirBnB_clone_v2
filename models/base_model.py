@@ -5,9 +5,15 @@
 from uuid import uuid4
 from datetime import datetime
 import models
+from os import getenv
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base()
+
+storage_t = getenv("HBNB_TYPE_STORAGE")
+if (storage_t == "db"):
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel():
@@ -15,9 +21,10 @@ class BaseModel():
         Base class to define all common attributes and methods for
         other classes
     """
-    id = Column(String(60), primary_key=True, nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    if (storage_t == "db"):
+        id = Column(String(60), primary_key=True, nullable=False)
+        created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+        updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """
@@ -70,5 +77,4 @@ class BaseModel():
     def delete(self):
         """ delete the current instance from the storage
         """
-        k = "{}.{}".format(type(self).__name__, self.id)
-        del models.storage.__objects[k]
+        models.storage.delete(self)
