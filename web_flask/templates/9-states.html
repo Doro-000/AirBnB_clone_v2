@@ -4,16 +4,22 @@
         <TITLE>HBNB</TITLE>
     </HEAD>
     <BODY>
-        <H1>State: {{  }}</H1>
-        <UL>
-        {% for state in states_list|sort(attribute="name") %}
-                <LI>{{ state.id|e }}: <B>{{ state.name|e }}</B></LI>
-                <UL>
-                        {% for city in state.cities|sort(attribute="name") %}
-                                <LI>{{ city.id|e }}: <B>{{ city.name|e }}</B></LI>
-                        {% endfor %}
-                </UL>
-        {% endfor %}
-        </UL>
+        {% if states_list is none %}
+            <H1>Not found!</H1>
+        {% elif not(states_list is sequence) %}
+            <H1>State: {{ states_list.name }}</H1>
+            <UL>
+                {% for city in states_list.cities|sort(attribute="name") %}
+                        <LI>{{ city.id|e }}: <B>{{ city.name|e }}</B></LI>
+                {% endfor %}
+            </UL>
+        {% else %}
+            <H1>States</H1>
+            <UL>
+                {% for state in states_list|sort(attribute="name") %}
+                        <LI>{{ state.id|e }}: <B>{{ state.name|e }}</B></LI>
+                {% endfor %}
+            </UL>    
+        {% endif %}
     </BODY>
 </HTML>
