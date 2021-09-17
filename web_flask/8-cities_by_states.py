@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """starts a Flask web application"""
 
-from uuid import SafeUUID
 from flask import Flask, render_template
 import models
 
