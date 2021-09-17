@@ -70,7 +70,7 @@ class BaseModel():
             if key in ("created_at", "updated_at"):
                 custom_dict.update({key: getattr(self, key).isoformat()})
             elif key == "_sa_instance_state":
-                continue
+                copy_dict.pop(key)
             else:
                 custom_dict.update({key: getattr(self, key)})
         return custom_dict
