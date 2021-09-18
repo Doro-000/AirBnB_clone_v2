@@ -68,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
             except:
                 print("** class doesn't exist **")
                 if (models.storage_engine == "db"):
-                    models.storage.rollback();
+                    models.storage.rollback()
         else:
             print("** class name missing **")
 
